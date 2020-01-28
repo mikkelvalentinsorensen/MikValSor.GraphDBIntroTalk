@@ -1,1 +1,1 @@
-docker run --name neo4j -p7474:7474 -d -v $PSScriptRoot/data:/data -v $PSScriptRoot/logs:/logs -v $PSScriptRoot/import:/var/lib/neo4j/import -v $PSScriptRoot/plugins:/plugins --env NEO4J_AUTH=neo4j/test neo4j:latest
+docker run --name neo4j -p7474:7474 -p7687:7687 -d -v $PSScriptRoot/data:/data -v $PSScriptRoot/logs:/logs -v $PSScriptRoot/import:/var/lib/neo4j/import -v $PSScriptRoot/plugins:/plugins --env NEO4J_AUTH=neo4j/test --platform linux neo4j:latest

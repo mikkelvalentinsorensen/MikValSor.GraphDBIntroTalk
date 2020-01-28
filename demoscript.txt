@@ -1,0 +1,88 @@
+run .\start.ps1
+open localhost:7474
+
+Connect neo4j client to:
+bolt://127.0.0.1:7687
+option: Username/password
+username: neo4j
+password: test
+
+Create Mikkel:
+CREATE(mikkel:Person{firstname:'Mikkel', born:'1978-08-17'})
+RETURN mikkel
+
+Get Mikkel:
+MATCH(mikkel:Person{firstname:'Mikkel'}) 
+RETURN mikkel
+
+Mikkel works at Valtech
+MATCH (mikkel:Person{firstname:'Mikkel'}) 
+CREATE (valtech:Company{name:'Valtech'})
+CREATE (mikkel)-[r:Works_At{since:'2017-11-01'}]->(valtech)
+RETURN mikkel, r, valtech
+
+Mikkel fell in love with Mette:
+
+MATCH(mikkel:Person{firstname:'Mikkel'}) 
+CREATE (mette:Person{firstname:'Mette', born:'1978-03-07'})
+CREATE (mikkel)-[r1:In_Relationship_With{since:'2003-08-23'}]->(mette)
+CREATE (niklas:Person{firstname:'Niklas', born:'2002-11-09'})
+CREATE (mette)-[r2:Mother_Of]->(niklas)
+CREATE (tristan:Person{firstname:'Tristan', born:'2007-09-23'})
+CREATE (mette)-[r3:Mother_Of]->(tristan)
+CREATE (thor:Person{firstname:'Thor', born:'2015-11-25'})
+CREATE (mette)-[r4:Mother_Of]->(thor)
+CREATE (mikkel)-[r5:Father_Of]->(thor)
+CREATE (lumringsbrovej:Address{streetname:'Lumringsbrovej', streetnumber:'1'})
+CREATE (mikkel)-[r6:Lives_At{since:'2016-07-16'}]->(lumringsbrovej)
+CREATE (mette)-[r7:Lives_At{since:'2016-07-16'}]->(lumringsbrovej)
+CREATE (thor)-[r8:Lives_At{since:'2016-07-16'}]->(lumringsbrovej)
+CREATE (tristan)-[r9:Lives_At{since:'2016-07-16'}]->(lumringsbrovej)
+CREATE (belsager:Address{streetname:'Belsager', streetnumber:'30'})
+CREATE (niklas)-[r10:Lives_At{since:'2017-08-21'}]->(belsager)
+CREATE (eli:Person{firstname:'Eli'})
+CREATE (eli)-[r11:Father_Of]->(niklas)
+CREATE (eli)-[r12:Father_Of]->(tristan)
+CREATE (eli)-[r13:Lives_At{since:'2017-08-21'}]->(belsager)
+CREATE (helle:Person{firstname:'Helle'})
+CREATE (helle)-[r14:Lives_At{since:'2017-08-21'}]->(belsager)
+CREATE (michael:Person{firstname:'Michael'})
+CREATE (michael)-[r15:Lives_At{since:'2017-08-21'}]->(belsager)
+CREATE (helle)-[r16:Mother_Of]->(michael)
+CREATE (eli)-[r17:In_Relationship_With]->(helle)
+RETURN mikkel, mette, niklas, tristan, thor, eli, helle, michael, lumringsbrovej, belsager, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, 14, r15, r16, 17
+
+Get Mikkel:
+MATCH(mikkel:Person{firstname:'Mikkel'}) 
+RETURN mikkel
+
+How do i relate to Mette
+MATCH (mikkel:Person{firstname:"Mikkel"}), (mette:Person{firstname:"Mette"}) 
+MATCH (mikkel) - [r] - (mette) RETURN mikkel, r, mette
+
+How do i relate to Niklas
+MATCH (mikkel:Person{firstname:"Mikkel"}), (niklas:Person{firstname:"Niklas"}) 
+MATCH (mikkel) - [r] - (niklas) RETURN mikkel, r, niklas
+
+MATCH (mikkel:Person{firstname:"Mikkel"}), (niklas:Person{firstname:"Niklas"}) 
+MATCH (mikkel) - [r1] - (unknown) -[r2] - (niklas) 
+RETURN mikkel, r1, unknown, r2, niklas
+
+MATCH (mikkel:Person{firstname:"Mikkel"}), (niklas:Person{firstname:"Niklas"}) 
+MATCH (mikkel) - [r1] - (u1) -[r2] - (u2) -[r3] - (niklas) 
+RETURN mikkel, r1, u1, r2, u2, r3, niklas
+
+But how does Niklas relate to Valtech
+
+MATCH (niklas:Person{firstname:"Niklas"}), (valtect:Company{name:"Valtech"}) 
+MATCH (valtect) - [r1] - (u1) -[r2] - (u2) - [r3] - (niklas) 
+RETURN valtect, u1, u2, niklas
+
+But how does Eli relate to Valtech
+
+MATCH (eli:Person{firstname:"Eli"}), (valtect:Company{name:"Valtech"}) 
+MATCH (valtect) - [r1] - (u1) -[r2] - (u2) - [r3] - (u3) - [r4] - (eli) 
+RETURN valtect, u1, u2, u3, eli
+
+
+MATCH (n) DETACH DELETE n
