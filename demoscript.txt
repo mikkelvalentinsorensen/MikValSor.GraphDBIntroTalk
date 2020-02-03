@@ -17,7 +17,7 @@ RETURN mikkel
 
 Mikkel works at Valtech
 MATCH (mikkel:Person{firstname:'Mikkel'}) 
-CREATE (valtech:Company{name:'Valtech'})
+CREATE (valtech:Company{name:'Valtech A/S'})
 CREATE (mikkel)-[r:Works_At{since:'2017-11-01'}]->(valtech)
 RETURN mikkel, r, valtech
 
@@ -25,7 +25,7 @@ Mikkel fell in love with Mette:
 
 MATCH(mikkel:Person{firstname:'Mikkel'}) 
 CREATE (mette:Person{firstname:'Mette', born:'1978-03-07'})
-CREATE (mikkel)-[r1:In_Relationship_With{since:'2003-08-23'}]->(mette)
+CREATE (mikkel)-[r1:In_Relationship_With{since:'2013-08-23'}]->(mette)
 CREATE (niklas:Person{firstname:'Niklas', born:'2002-11-09'})
 CREATE (mette)-[r2:Mother_Of]->(niklas)
 CREATE (tristan:Person{firstname:'Tristan', born:'2007-09-23'})
@@ -50,10 +50,33 @@ CREATE (michael:Person{firstname:'Michael'})
 CREATE (michael)-[r15:Lives_At{since:'2017-08-21'}]->(belsager)
 CREATE (helle)-[r16:Mother_Of]->(michael)
 CREATE (eli)-[r17:In_Relationship_With]->(helle)
-RETURN mikkel, mette, niklas, tristan, thor, eli, helle, michael, lumringsbrovej, belsager, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, 14, r15, r16, 17
+CREATE (sdc:Company{name:'SDC A/S'})
+CREATE (mette)-[r18:Works_At{since:'2019-08-01'}]->(sdc)
+CREATE (ey:Company{name:'EY Net Source A/S'})
+CREATE (eli)-[r19:Works_At{since:'2006-07-01'}]->(ey)
+CREATE (bk:Company{name:'Burger King'})
+CREATE (niklas)-[r20:Works_At{since:'2019-03-01'}]->(bk)
+CREATE (sitecore:Company{name:'Sitecore A/S'})
+CREATE (mikkel)-[r21:Worked_At{from:'2009-11-01', to:'2015-08-31'}]->(sitecore)
+CREATE (mette)-[r22:Worked_At{from:'2012-08-01', to:'2014-05-31'}]->(sitecore)
+CREATE (karen:Person{firstname:'Karen'})
+CREATE (karen)-[r23:Mother_Of]->(mette)
+CREATE (john:Person{firstname:'John'})
+CREATE (john)-[r24:Father_Of]->(mette)
+CREATE (smukfest2013:Event{name:'Smukfest 2013'})
+CREATE (mikkel)-[r25:Attended]->(smukfest2013)
+CREATE (mette)-[r26:Attended]->(smukfest2013)
+CREATE (kol:Band{name:'Kings of Leon'})
+CREATE (kol)-[r27:Played_At]->(smukfest2013)
+CREATE (smukfest2012:Event{name:'Smukfest 2012'})
+CREATE (mette)-[r28:Attended]->(smukfest2012)
+CREATE (smukfest:Company{name:'Smukfest'})
+CREATE (smukfest)-[r29:Arranged_Event]->(smukfest2012)
+CREATE (smukfest)-[r30:Arranged_Event]->(smukfest2013)
+RETURN mikkel, mette
 
 Get Mikkel:
-MATCH(mikkel:Person{firstname:'Mikkel'}) 
+MATCH (mikkel:Person{firstname:'Mikkel'}) 
 RETURN mikkel
 
 How do i relate to Mette
@@ -83,6 +106,12 @@ But how does Eli relate to Valtech
 MATCH (eli:Person{firstname:"Eli"}), (valtect:Company{name:"Valtech"}) 
 MATCH (valtect) - [r1] - (u1) -[r2] - (u2) - [r3] - (u3) - [r4] - (eli) 
 RETURN valtect, u1, u2, u3, eli
+
+How to find your mom in law
+MATCH (mikkel:Person{firstname:'Mikkel'}) 
+MATCH (mikkel) - [r1:In_Relationship_With] - (person:Person) <- [r2:Mother_Of] - (mominlaw:Person)
+RETURN mikkel, person, mominlaw
+
 
 
 MATCH (n) DETACH DELETE n
