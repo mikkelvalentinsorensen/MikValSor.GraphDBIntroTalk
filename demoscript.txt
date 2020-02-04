@@ -92,14 +92,14 @@ MATCH (mikkel) - [r1] - (unknown) -[r2] - (niklas)
 RETURN mikkel, r1, unknown, r2, niklas
 
 MATCH (mikkel:Person{firstname:"Mikkel"}), (niklas:Person{firstname:"Niklas"}) 
-MATCH (mikkel) - [r1] - (u1) -[r2] - (u2) -[r3] - (niklas) 
+MATCH (mikkel) - [r1] - (u1) - [r2] - (u2) -[r3] - (niklas) 
 RETURN mikkel, r1, u1, r2, u2, r3, niklas
 
 But how does Niklas relate to Valtech
 
-MATCH (niklas:Person{firstname:"Niklas"}), (valtect:Company{name:"Valtech"}) 
-MATCH (valtect) - [r1] - (u1) -[r2] - (u2) - [r3] - (niklas) 
-RETURN valtect, u1, u2, niklas
+MATCH (niklas:Person{firstname:"Niklas"}), (valtech:Company{name:"Valtech"}) 
+MATCH (valtech) - [r1] - (u1) -[r2] - (u2) - [r3] - (niklas) 
+RETURN valtech, u1, u2, niklas
 
 But how does Eli relate to Valtech
 
