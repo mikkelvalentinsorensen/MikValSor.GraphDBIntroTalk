@@ -73,7 +73,7 @@ CREATE (mette)-[r28:Attended]->(smukfest2012)
 CREATE (smukfest:Company{name:'Smukfest'})
 CREATE (smukfest)-[r29:Arranged_Event]->(smukfest2012)
 CREATE (smukfest)-[r30:Arranged_Event]->(smukfest2013)
-RETURN mikkel, mette
+RETURN mikkel
 
 Get Mikkel:
 MATCH (mikkel:Person{firstname:'Mikkel'}) 
